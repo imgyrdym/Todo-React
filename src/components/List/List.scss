@@ -46,6 +46,10 @@
     span {
       flex: 1;
       margin-left: 5px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 140px;
+      white-space: nowrap;
     }
   };
 

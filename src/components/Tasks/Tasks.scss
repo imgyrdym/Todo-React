@@ -24,8 +24,48 @@
     }
   }
 
+  &__form {
+    &-new {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      img {
+        width: 16px;
+        height: 16px;
+        margin-left: 5px;
+        opacity: 0.6;
+      }
+
+      span {
+        font-size: 16px;
+        margin-left: 17px;
+      }
+    }
+
+    &-create {
+      .button {
+        margin-right: 10px;
+        margin-top: 20px;
+      }
+    }
+  }
+
   &__items {
     margin-top: 30px;
+
+      h2 {
+        font-family: Roboto;
+        font-weight: bold;
+        font-size: 23px;
+        color: #c9d1d3;
+      }
+
     &-row {
       display: flex;
       align-items: center;

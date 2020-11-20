@@ -42,22 +42,24 @@ const AddList = ({ colors, onAdd }) => {
         colorId: selectedColor
       })
       .then (({ data }) => {
-        const color = colors.filter(c => c.id === selectedColor)[0].name;
-        const listObj = { ...data, color: { name: color} };
+        const color = colors.filter(c => c.id === selectedColor)[0];
+        const listObj = { ...data, color, tasks: [] };
         onAdd(listObj);
         onClose();
+      })
+      .catch(() => {
+        alert('Ошибка при добавлении списка!')
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }
+  };
 
   return (
     <div className="add-list">
       <List
         // 1. передаем здесь функцию (см дальше в List)
         //если в функцию просто передать тру/фолз, то попап появится при клике, но уходить не будет. !visiblePopup передает же значения, противоположные актуальному состоянию
-        const
         onClick={() => setVisiblePopup(!visiblePopup)}
         items={[
           {
@@ -84,14 +86,14 @@ const AddList = ({ colors, onAdd }) => {
             placeholder="Название списка"
           />
           <div className="add-list__popup-colors">
-            {colors.map((color) => (
+            {colors? (colors.map((color) => (
               <Badge
                 onClick={() => selectColor(color.id)}
                 key={color.id}
                 color={color.name}
                 className={selectedColor === color.id && "active"}
               />
-            ))}
+            ))) : null}
           </div>
           <button onClick={addList} className="button">
             {isLoading ? 'Добавление...' : 'Добавить'}
