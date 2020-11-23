@@ -25,6 +25,16 @@ function App() {
     setLists(newList);
   };
 
+  const onAddTask = (listId, taskObj) => {
+    const newList = lists.map(item => {
+      if (item.id === listId) {
+        item.tasks = [...item.tasks, taskObj]
+      }
+        return item;
+    });
+    setLists(newList);
+  };
+
   const onEditListTitle = (id, title) => {
     const newList = lists.map(item => {
       if (item.id === id) {
@@ -38,6 +48,7 @@ function App() {
   return (
 		<div className="todo">
 			<aside className="todo__sidebar">
+        {/* renders "Все задачи" form */}
 				<List
 					items={[
 						{
@@ -46,8 +57,8 @@ function App() {
 							isActive: true,
 						},
 					]}
-					// isRemovable={false}
 				/>
+        {/* renders all the lists from DB */}
 				{lists ? (
 					<List
 						items={lists}
@@ -64,13 +75,16 @@ function App() {
 				) : (
 					"Загрузка..."
 				)}
+        {/* for for adding a new list of tasks */}
 				<AddList onAdd={onAddList} colors={colors} />
 			</aside>
 			<main className="todo__tasks">
+        {/* shows all the tasks from the list chosen */}
 				{lists && activeItem && (
           <Tasks
             list={activeItem}
             onEditTitle={onEditListTitle}
+            onAddTask={onAddTask}
           />
 				)}
 			</main>

@@ -1,3 +1,5 @@
+// component for rendering a list color badge
+
 import React from 'react';
 import classNames from 'classnames';
 

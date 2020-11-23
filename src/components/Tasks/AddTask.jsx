@@ -1,19 +1,42 @@
+// this is a form for adding a task into the chosen list
+
 import React, {useState} from 'react';
+import axios from 'axios';
 
 import addSvg from '../../assets/img/plus.svg';
 
-const AddTask = () => {
+const AddTask = ({ list, onAddTask }) => {
   const [visibleForm, setFormVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState('');
 
+  //form is not visible before been called
   const toggleFormVisible = () => {
     setFormVisible(!visibleForm);
     setInputValue('');
   }
 
   const addTask =() => {
+    const obj = {
+      listId: list.id,
+      text: inputValue,
+      comleted: false
+    };
 
-  }
+    axios
+      .post("http://localhost:3001/tasks", obj)
+      .then(({ data }) => {
+        console.log(data)
+        onAddTask(list.id, data)
+        toggleFormVisible()
+      .catch(() => {
+        alert('Ошибка при добавлении задачи')
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      })
+    });
+  };
 
   return (
 		<div className="tasks__form">
@@ -31,7 +54,9 @@ const AddTask = () => {
             placeholder="Введите задачу"
             onChange={e => setInputValue(e.target.value)}
           />
-					<button onClick={addTask} className="button">Добавить задачу</button>
+					<button onClick={addTask} className="button">
+            {isSubmitting ? 'Добавление' : 'Добавить задачу'}
+          </button>
 					<button onClick={toggleFormVisible} className="button button--grey">
 						Отмена
 					</button>

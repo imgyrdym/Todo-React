@@ -8,7 +8,6 @@ import Badge from '../Badge';
 
 import './List.scss';
 
-//2. эта функция у нас теперь в пропсах к List
 const List = ({ items, isRemovable, onClick, onRemove, onClickItem, activeItem }) => {
 
   const removeList = (item) => {
@@ -22,7 +21,7 @@ const List = ({ items, isRemovable, onClick, onRemove, onClickItem, activeItem }
   }
 
   return (
-		//3. знакомим ul с онкликом и он понимает, че от него хотят
+
 		<ul onClick={onClick} className="allists">
 			{items.map((item, index) => (
 				<li

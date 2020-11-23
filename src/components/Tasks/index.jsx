@@ -7,15 +7,17 @@ import './Tasks.scss';
 
 import AddTask from "./AddTask.jsx";
 
-const Tasks = ( { list, onEditTitle } ) => {
+const Tasks = ( { list, onEditTitle, onAddTask } ) => {
 
   const editTitle = () => {
     const newTitle = window.prompt('Название списка', list.name);
     if (newTitle) {
       onEditTitle(list.id, newTitle);
-      axios.patch('http://localhost:3001/lists/' + list.id, {
+      axios
+      .patch('http://localhost:3001/lists/' + list.id, {
         name: newTitle
-      }).catch(() => {
+      })
+      .catch(() => {
         alert('Не удалось изменить название')
       });
     }
@@ -56,7 +58,7 @@ const Tasks = ( { list, onEditTitle } ) => {
             </div>
           )
         }
-        <AddTask />
+        <AddTask list={list} onAddTask={onAddTask}/>
       </div>
     </div>
   );
