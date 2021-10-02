@@ -1,25 +1,95 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+import { List, AddList, Tasks } from './components';
+
+import listSvg from "./assets/img/list.svg";
 
 function App() {
+
+  const [lists, setLists] = useState(null);
+  const [colors, setColors] = useState(null);
+  const [activeItem, setActiveItem] = useState(null);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/lists?_expand=color&_embed=tasks").then(({ data }) => {
+      setLists(data);
+    });
+    axios.get("http://localhost:3001/colors").then(({ data }) => {
+      setColors(data);
+    });
+  }, []);
+
+  const onAddList = (obj) => {
+    const newList = [...lists, obj];
+    setLists(newList);
+  };
+
+  const onAddTask = (listId, taskObj) => {
+    const newList = lists.map(item => {
+      if (item.id === listId) {
+        item.tasks = [...item.tasks, taskObj]
+      }
+        return item;
+    });
+    setLists(newList);
+  };
+
+  const onEditListTitle = (id, title) => {
+    const newList = lists.map(item => {
+      if (item.id === id) {
+        item.name = title;
+      }
+      return item
+    })
+		setLists(newList);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+		<div className="todo">
+			<aside className="todo__sidebar">
+        {/* renders "Все задачи" form */}
+				<List
+					items={[
+						{
+							icon: listSvg,
+							name: "Все задачи",
+							isActive: true,
+						},
+					]}
+				/>
+        {/* renders all the lists from DB */}
+				{lists ? (
+					<List
+						items={lists}
+						onRemove={(id) => {
+							const newLists = lists.filter((item) => item.id !== id);
+							setLists(newLists);
+						}}
+						onClickItem={(item) => {
+							setActiveItem(item);
+						}}
+						activeItem={activeItem}
+						isRemovable
+					/>
+				) : (
+					"Загрузка..."
+				)}
+        {/* for for adding a new list of tasks */}
+				<AddList onAdd={onAddList} colors={colors} />
+			</aside>
+			<main className="todo__tasks">
+        {/* shows all the tasks from the list chosen */}
+				{lists && activeItem && (
+          <Tasks
+            list={activeItem}
+            onEditTitle={onEditListTitle}
+            onAddTask={onAddTask}
+          />
+				)}
+			</main>
+		</div>
+	);
 }
 
 export default App;
