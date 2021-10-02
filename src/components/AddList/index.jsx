@@ -30,7 +30,7 @@ const AddList = ({ colors, onAdd }) => {
 
   const addList = () => {
     if (!inputValue) {
-      alert('Введите название списка');
+      alert('List name');
       return;
     };
 
@@ -62,7 +62,7 @@ const AddList = ({ colors, onAdd }) => {
           {
             className: "allists__add-btn",
             icon: plusSvg,
-            name: "Добавить список",
+            name: "Add list",
           },
         ]}
       />
@@ -80,7 +80,7 @@ const AddList = ({ colors, onAdd }) => {
             onChange={e => setInputValue(e.target.value)}
             className="field"
             type="text"
-            placeholder="Название списка"
+            placeholder="List name"
           />
           <div className="add-list__popup-colors">
             {colors? (colors.map((color) => (
@@ -93,7 +93,7 @@ const AddList = ({ colors, onAdd }) => {
             ))) : null}
           </div>
           <button onClick={addList} className="button">
-            {isLoading ? 'Добавление...' : 'Добавить'}
+            {isLoading ? 'Submitting...' : 'Add'}
           </button>
         </div>
       )}

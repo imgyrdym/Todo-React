@@ -29,13 +29,10 @@ const AddTask = ({ list, onAddTask }) => {
         console.log(data)
         onAddTask(list.id, data)
         toggleFormVisible()
-      .catch(() => {
-        alert('Ошибка при добавлении задачи')
       })
       .finally(() => {
         setIsSubmitting(false);
-      })
-    });
+      });
   };
 
   return (
@@ -43,7 +40,7 @@ const AddTask = ({ list, onAddTask }) => {
 			{!visibleForm ? (
 				<div onClick={toggleFormVisible} className="tasks__form-new">
 					<img src={addSvg} alt="addtask" />
-					<span>Новая задача</span>
+					<span>New task</span>
 				</div>
 			) : (
 				<div className="tasks__form-create">
@@ -51,14 +48,14 @@ const AddTask = ({ list, onAddTask }) => {
             value={inputValue}
             className="field"
             type="text"
-            placeholder="Введите задачу"
+            placeholder="Enter your task"
             onChange={e => setInputValue(e.target.value)}
           />
 					<button onClick={addTask} className="button">
-            {isSubmitting ? 'Добавление' : 'Добавить задачу'}
+            {isSubmitting ? 'Submitting' : 'Add task'}
           </button>
 					<button onClick={toggleFormVisible} className="button button--grey">
-						Отмена
+						Cancel
 					</button>
 				</div>
 			)}

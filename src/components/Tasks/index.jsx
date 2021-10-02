@@ -10,16 +10,13 @@ import AddTask from "./AddTask.jsx";
 const Tasks = ( { list, onEditTitle, onAddTask } ) => {
 
   const editTitle = () => {
-    const newTitle = window.prompt('Название списка', list.name);
+    const newTitle = window.prompt('List name', list.name);
     if (newTitle) {
       onEditTitle(list.id, newTitle);
       axios
       .patch('http://localhost:3001/lists/' + list.id, {
         name: newTitle
       })
-      .catch(() => {
-        alert('Не удалось изменить название')
-      });
     }
   }
 
@@ -30,7 +27,7 @@ const Tasks = ( { list, onEditTitle, onAddTask } ) => {
         <img onClick={editTitle} src={editSvg} alt="edit icon" />
       </h2>
       <div className="tasks__items">
-        {!list.tasks.length && <h2>Задачи отсутствуют</h2>}
+        {!list.tasks.length && <h2>There are no tasks yet</h2>}
         {
           list.tasks.map(task =>
             <div key={task.id} className="tasks__items-row">

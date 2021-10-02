@@ -48,12 +48,12 @@ function App() {
   return (
 		<div className="todo">
 			<aside className="todo__sidebar">
-        {/* renders "Все задачи" form */}
+        {/* renders "Task Lists" form */}
 				<List
 					items={[
 						{
 							icon: listSvg,
-							name: "Все задачи",
+							name: "Task Lists",
 							isActive: true,
 						},
 					]}

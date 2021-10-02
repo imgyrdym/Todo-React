@@ -17,7 +17,7 @@
     },
     {
       "id": 4,
-      "name": "Книги",
+      "name": "Books",
       "colorId": 2
     },
     {
@@ -26,9 +26,14 @@
       "colorId": 1
     },
     {
-      "name": "its all right",
+      "name": "checking",
       "colorId": 1,
       "id": 6
+    },
+    {
+      "name": "Wow that's new",
+      "colorId": 1,
+      "id": 7
     }
   ],
   "tasks": [
@@ -124,6 +129,24 @@
       "text": "по-русски",
       "comleted": false,
       "id": 17
+    },
+    {
+      "listId": 5,
+      "text": "Try to write smth",
+      "comleted": false,
+      "id": 18
+    },
+    {
+      "listId": 7,
+      "text": "Hmm",
+      "comleted": false,
+      "id": 19
+    },
+    {
+      "listId": 7,
+      "text": "Let's check this",
+      "comleted": false,
+      "id": 20
     }
   ],
   "colors": [

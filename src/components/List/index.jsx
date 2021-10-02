@@ -11,7 +11,7 @@ import './List.scss';
 const List = ({ items, isRemovable, onClick, onRemove, onClickItem, activeItem }) => {
 
   const removeList = (item) => {
-    if (window.confirm('Вы правда хотите удалить список?')) {
+    if (window.confirm('Delete this task list permanently?')) {
       axios
         .delete("http://localhost:3001/lists/" + item.id)
         .then(() => {
