@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Switch, Route, Link, useHistory } from 'react-router-dom';
 
 import { List, AddList, Tasks } from './components';
 
@@ -10,6 +11,7 @@ function App() {
   const [lists, setLists] = useState(null);
   const [colors, setColors] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
+  let history = useHistory();
 
   useEffect(() => {
     axios.get("http://localhost:3001/lists?_expand=color&_embed=tasks").then(({ data }) => {
@@ -48,38 +50,44 @@ function App() {
   return (
 		<div className="todo">
 			<aside className="todo__sidebar">
-        {/* renders "Task Lists" form */}
 				<List
-					items={[
-						{
-							icon: listSvg,
-							name: "Task Lists",
-							isActive: true,
-						},
-					]}
+          onClickItem={list => {
+            history.push(`/`);
+          }}
+          items={[
+            {
+              active: history.location.pathname === '/',
+              icon: listSvg,
+              name: 'Task lists'
+            }
+          ]}
 				/>
-        {/* renders all the lists from DB */}
 				{lists ? (
 					<List
 						items={lists}
 						onRemove={(id) => {
-							const newLists = lists.filter((item) => item.id !== id);
+							const newLists = lists.filter((list) => list.id !== id);
 							setLists(newLists);
 						}}
-						onClickItem={(item) => {
-							setActiveItem(item);
-						}}
+						onClickItem={(list) => {
+							history.push(`/lists/${list.id}`);
+              setActiveItem(list);
+            }}
 						activeItem={activeItem}
 						isRemovable
 					/>
 				) : (
-					"Загрузка..."
+					"Loading..."
 				)}
-        {/* for for adding a new list of tasks */}
 				<AddList onAdd={onAddList} colors={colors} />
 			</aside>
+
 			<main className="todo__tasks">
-        {/* shows all the tasks from the list chosen */}
+        <Route exact path="/">
+          {/* при первом рендере lists=null, поэтому сначала мы проверяем, что он не null, и когда проверили, что идем по нему мапом  */}
+          Choose a task list in menu or create a new one
+        </Route>
+        <Route path="/lists/:id">
 				{lists && activeItem && (
           <Tasks
             list={activeItem}
@@ -87,6 +95,7 @@ function App() {
             onAddTask={onAddTask}
           />
 				)}
+        </Route>
 			</main>
 		</div>
 	);
